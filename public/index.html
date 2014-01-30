@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome!</title>
+	<style type="text/css">
+	body {
+		background-color: rgb(240,240,240);	
+	}
+	#header {
+		margin: auto;
+		width: 800px;
+		border-radius: 8px;
+		background-color: rgb(200,200,200);
+		text-align: center;
+	}
+	#content {
+		width: 800px;
+		margin: auto;
+		border-radius: 8px;
+		background-color: teal;
+		box-shadow: 2px 2px green;
+		padding:8px;
+		min-height: 500px;
+	}
+	#inputs {
+		vertical-align: text-top;
+		width: 20%;
+		height: 100%;
+		display: block;
+		float: left;
+	}
+	#outputs {
+		width: 80%;
+		height: 100%;
+		display: block;
+		float: left;
+	}
+	input {
+		border-radius: 4px;
+		padding: 3px;
+		background-color: rgb(230,230,230);
+		border: none;
+		margin: 4px;
+	}
+	.output {
+		max-width: 100px;
+		display: inline-block;
+		border-radius: 16px;
+		text-align: center;
+		background-color: rgb(180,180,180);
+		padding: 8px;
+	}
+	</style>
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="javascripts/socket.io.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var socket;
+		
+		try {
+			
+			//same port the local webserver runs on
+			socket = io.connect('http://localhost:3000');
+			
+			socket.on('welcome',function (message){
+				console.log(message);
+				socket.emit('status',{state: 'totally ready'});
+			});
+			socket.on('chat',function (message) {
+				var template = $('#example').clone();
+				template.text(message.message);
+				$('#outputs').append(template);
+				setTimeout(function() {
+					template.remove();
+				},5000);
+			});
+
+		} catch (e) {
+			console.log('hawt dog! the socket failed to instantiate');
+		}
+		$('#myInput').keypress(function(e) {
+			if (e.which == 13) {
+				try {
+					socket.emit('update',{'message':$(this).val()});
+					$(this).val('');
+				} catch(e) {
+					console.log('error sending message');
+				}
+			}
+		});
+	});
+	</script>
+
+</head>
+<body>
+	<div id="header"><h1>You are awesome!</h1></div>
+ <div id="content">
+ 	<div id="inputs">
+	 	<div id="myInputContainer"><input id="myInput" type="text" placeholder="mine"/></div>
+	 	<div id="otherInputContainers">
+	 	</div>
+ 	</div>
+ 	<div id="outputs">
+ 		<div id="example" class="output" hidden>This is what an output looks like</div>
+ 	</div>
+ </div>
+</body>
+</html>
