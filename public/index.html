@@ -61,10 +61,28 @@
 			
 			//same port the local webserver runs on
 			socket = io.connect('http://localhost:3000');
-			
+			var myID = null;
+			var usersInit = true;
 			socket.on('welcome',function (message){
+				myID = message.user;
 				console.log(message);
-				socket.emit('status',{state: 'totally ready'});
+				for (var u in message.users) {
+					if (u != myID) {
+						$('#otherInputContainer').append($('<input type="text" id="'+u+'">'));
+						usersInit =true;
+					}
+				}
+			});
+			socket.on('newChatter',function (message) {
+				console.log('new user!',message);
+				$('#otherInputContainer').append($('<input type="text" id="'+message.user+'">'));
+			});
+			socket.on('lostAChatter',function (message) {
+				console.log('lost a user!',message);
+				$('#'+message.user).remove();
+			});
+			socket.on('keypress',function(message) {
+				$('#'+message.user).val(message.text);
 			});
 			socket.on('chat',function (message) {
 				var template = $('#example').clone();
@@ -78,7 +96,7 @@
 		} catch (e) {
 			console.log('hawt dog! the socket failed to instantiate');
 		}
-		$('#myInput').keypress(function(e) {
+		$('#myInput').keyup(function(e) {
 			if (e.which == 13) {
 				try {
 					socket.emit('update',{'message':$(this).val()});
@@ -87,6 +105,7 @@
 					console.log('error sending message');
 				}
 			}
+			socket.emit('keypress',{text: $('#myInput').val()})
 		});
 	});
 	</script>
@@ -97,7 +116,7 @@
  <div id="content">
  	<div id="inputs">
 	 	<div id="myInputContainer"><input id="myInput" type="text" placeholder="mine"/></div>
-	 	<div id="otherInputContainers">
+	 	<div id="otherInputContainer">
 	 	</div>
  	</div>
  	<div id="outputs">
