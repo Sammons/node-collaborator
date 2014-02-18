@@ -26,17 +26,9 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = socket.listen(server);
 var userCounter = 0;
 var users = {};
+var userNames = {};
 var modules = goGetEm('collaborations');
 io.sockets.on('connection',function (socket) {
-	userCounter++;
-	socket.user = userCounter;
-	users[socket.user] = true; //store data maybe?
-
-	socket.broadcast.emit('newChatter',{
-		user: userCounter
-	})
-	
-	socket.emit('welcome',{message: 'welcome', user: userCounter, users: users});
 
 	socket.on('keypress',function (message) {
 		message.user = socket.user;
@@ -46,10 +38,22 @@ io.sockets.on('connection',function (socket) {
 	socket.on('update',function (message) {
 		filterize(modules,message.message,io);		
 	});
-
+	socket.on('name',function (message) {
+		userCounter++;
+		socket.user = userCounter;
+		socket.name = message.message;
+		userNames[socket.user] = socket.name;
+		socket.emit('welcome',{message: 'welcome', user: userCounter, users: users, userNames: userNames});
+		users[socket.user] = true; //store data maybe?
+		socket.broadcast.emit('newChatter',{
+			user: userCounter,
+			name: message.message
+		})
+	});
 	socket.on('disconnect',function (message){
 		io.sockets.emit('lostAChatter',{user: socket.user})
 		delete users[socket.user];
+		delete userNames[socket.user];
 	});
 });
 
