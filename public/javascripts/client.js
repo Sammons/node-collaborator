@@ -4,9 +4,9 @@ $(document).ready(function() {
 		try {
 			
 			//same port the local webserver runs on
-			socket = io.connect('http://devshock.sammonsben.com:80');
+			//socket = io.connect('http://devshock.sammonsben.com:80');
 			var nameSent = false;
-			//socket = io.connect('http://localhost:3000');
+			socket = io.connect('http://localhost:3000');
 			var myID = null;
 			var usersInit = true;
 			socket.on('welcome',function (message){
