@@ -1,4 +1,4 @@
-exports.filterize = function (original)
+exports.filter = function (original)
 {
-	return "You like poop!" + original;
+	return original + "NOBODY CARES";
 }
