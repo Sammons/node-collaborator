@@ -2,7 +2,7 @@ exports.filter = function(message) {
 //Something is wrong with my string arrays.... not sure though....
 
 var quotes = ["I wanna be the very best", "that no one ever was!", "To catch them is my real test", "to train them is my cause!"];
-message = message + " " + xquotes[Math.floor(Math.random()*3)];
+message = message + " " + quotes[Math.floor(Math.random()*3)];
 
 var pokemon = ["...PIKAH!", "...Bulba!", "...Charmander Char!", "...Squirtle squirt squirt!", "...CAT-ER-PEEEEEEEEE!", "...Weeeeeeddddddlllleeee!", "...Pidge pidge pidgey!", "...tatta rat tat tatta!"];
 message = message + " " + pokemon[Math.floor(Math.random()*7)];
