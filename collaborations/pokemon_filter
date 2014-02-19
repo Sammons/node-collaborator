@@ -7,5 +7,5 @@ message = message + quotes[((Math.random()*10)%3)];
 var pokemon = ["...PIKAH!", "...Bulba!", "...Charmander Char!", "...Squirtle squirt squirt!", "...CAT-ER-PEEEEEEEEE!", "...Weeeeeeddddddlllleeee!", "...Pidge pidge pidgey!", "...tatta rat tat tatta!"];
 message = message + pokemon[((Math.random()*100)%8)];
 */
-	return message + 'Praise the Helix Fossil!';
+	return message + ' Praise the Helix Fossil!';
 };
