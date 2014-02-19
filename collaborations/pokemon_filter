@@ -1,0 +1,15 @@
+exports.filter = function(message) {
+//Something is wrong with my string arrays.... not sure though....
+
+/*var quotes = ["I wanna be the very best", "that no one ever was!", "To catch them is my real test", "to train them is my cause!"];
+message = message + quotes[((Math.random()*10)%3)];
+
+var pokemon = ["...PIKAH!", "...Bulba!", "...Charmander Char!", "...Squirtle squirt squirt!", "...CAT-ER-PEEEEEEEEE!", "...Weeeeeeddddddlllleeee!", "...Pidge pidge pidgey!", "...tatta rat tat tatta!"];
+message = message + pokemon[((Math.random()*100)%8)];
+*/
+<<<<<<< HEAD
+	return message + 'Praise the Helix Fossil!';
+=======
+	return message + ' Praise the Helix Fossil!';
+>>>>>>> f307e8db06a04f8bb54f99b8575ac7af16f0eeba
+};
